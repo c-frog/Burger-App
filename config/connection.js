@@ -1,15 +1,21 @@
 // SET UP SQL CONNECTION
 const mysql = require("mysql");
-
-const connection = mysql.createConnection({
-   host: "localhost",
-   port: 3306,
-   user: "root",
-   password: "clydefrog",
-   database: "burger_db"
-});
+require("dotenv").config()
+let connection;
 
 // MAKE CONNECTION
+if (process.env.JAWSDB_URL) {
+   connection = mysql.createConnection(process.env.JAWSDB_URL);
+} else {
+   connection = mysql.createConnection({
+      host: "localhost",
+      port: 3306,
+      user: process.env.USER_NAME,
+      password: process.env.USER_PASSWORD,
+      database: "burger_db"
+   });
+}
+
 connection.connect(function(err) {
    if (err) {
       console.log("error connectiong: " + err.stack);
